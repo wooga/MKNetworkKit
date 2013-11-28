@@ -107,8 +107,9 @@ static NSOperationQueue *_sharedNetworkQueue;
   if((self = [super init])) {
     
     self.apiPath = apiPath;
-    self.backgroundCacheQueue = dispatch_queue_create("com.mknetworkkit.cachequeue", DISPATCH_QUEUE_SERIAL);
-    self.operationQueue = dispatch_queue_create("com.mknetworkkit.operationqueue", DISPATCH_QUEUE_SERIAL);
+      
+    _backgroundCacheQueue = dispatch_queue_create("com.mknetworkkit.cachequeue", DISPATCH_QUEUE_SERIAL);
+    _operationQueue = dispatch_queue_create("com.mknetworkkit.operationqueue", DISPATCH_QUEUE_SERIAL);
     
     if(hostName) {
       [[NSNotificationCenter defaultCenter] addObserver:self
@@ -129,8 +130,8 @@ static NSOperationQueue *_sharedNetworkQueue;
       
       NSMutableDictionary *newHeadersDict = [headers mutableCopy];
       NSString *userAgentString = [NSString stringWithFormat:@"%@/%@",
-                                   [[NSBundle mainBundle] infoDictionary][(NSString *)kCFBundleNameKey],
-                                   [[NSBundle mainBundle] infoDictionary][(NSString *)kCFBundleVersionKey]];
+                                   [[NSBundle mainBundle] infoDictionary][(__bridge NSString *)kCFBundleNameKey],
+                                   [[NSBundle mainBundle] infoDictionary][(__bridge NSString *)kCFBundleVersionKey]];
       newHeadersDict[@"User-Agent"] = userAgentString;
       self.customHeaders = newHeadersDict;
     } else {
@@ -163,7 +164,8 @@ static NSOperationQueue *_sharedNetworkQueue;
   [[NSNotificationCenter defaultCenter] removeObserver:self name:NSApplicationWillResignActiveNotification object:nil];
   [[NSNotificationCenter defaultCenter] removeObserver:self name:NSApplicationWillTerminateNotification object:nil];
 #endif
-  
+   dispatch_release(_backgroundCacheQueue);
+   dispatch_release(_operationQueue);
 }
 
 +(void) dealloc {

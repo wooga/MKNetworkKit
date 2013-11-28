@@ -922,6 +922,7 @@ OSStatus extractIdentityAndTrust(CFDataRef inPKCS12Data,
   [self endBackgroundTask];
 }
 
+#ifndef APPORTABLE
 // https://developer.apple.com/library/mac/#documentation/security/conceptual/CertKeyTrustProgGuide/iPhone_Tasks/iPhone_Tasks.html
 OSStatus extractIdentityAndTrust(CFDataRef inPKCS12Data,        // 5
                                  SecIdentityRef *outIdentity,
@@ -971,6 +972,7 @@ OSStatus extractIdentityAndTrust(CFDataRef inPKCS12Data,        // 5
   
   return securityError;
 }
+#endif
 
 - (void)connection:(NSURLConnection *)connection willSendRequestForAuthenticationChallenge:(NSURLAuthenticationChallenge *)challenge {
   
@@ -990,6 +992,7 @@ OSStatus extractIdentityAndTrust(CFDataRef inPKCS12Data,        // 5
       
       [challenge.sender useCredential:credential forAuthenticationChallenge:challenge];
     }
+#ifndef APPORTABLE
     else if ((challenge.protectionSpace.authenticationMethod == NSURLAuthenticationMethodClientCertificate) && self.clientCertificate) {
       
       NSError *error = nil;
@@ -1059,6 +1062,7 @@ OSStatus extractIdentityAndTrust(CFDataRef inPKCS12Data,        // 5
         [challenge.sender cancelAuthenticationChallenge:challenge];
       }
     }
+#endif
     else if (self.authHandler) {
       
       // forward the authentication to the view controller that created this operation
