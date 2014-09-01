@@ -108,8 +108,8 @@ static NSOperationQueue *_sharedNetworkQueue;
     
     self.apiPath = apiPath;
       
-    _backgroundCacheQueue = dispatch_queue_create("com.mknetworkkit.cachequeue", DISPATCH_QUEUE_SERIAL);
-    _operationQueue = dispatch_queue_create("com.mknetworkkit.operationqueue", DISPATCH_QUEUE_SERIAL);
+    self.backgroundCacheQueue = dispatch_queue_create("com.mknetworkkit.cachequeue", DISPATCH_QUEUE_SERIAL);
+    self.operationQueue = dispatch_queue_create("com.mknetworkkit.operationqueue", DISPATCH_QUEUE_SERIAL);
     
     if(hostName) {
       [[NSNotificationCenter defaultCenter] addObserver:self
@@ -164,8 +164,6 @@ static NSOperationQueue *_sharedNetworkQueue;
   [[NSNotificationCenter defaultCenter] removeObserver:self name:NSApplicationWillResignActiveNotification object:nil];
   [[NSNotificationCenter defaultCenter] removeObserver:self name:NSApplicationWillTerminateNotification object:nil];
 #endif
-   dispatch_release(_backgroundCacheQueue);
-   dispatch_release(_operationQueue);
 }
 
 +(void) dealloc {
