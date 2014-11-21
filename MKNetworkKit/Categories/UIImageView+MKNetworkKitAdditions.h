@@ -1,9 +1,9 @@
 //
-//  ExampleDownloader.m
-//  MKNetworkKitDemo
+//  UIImageView+MKNetworkKitAdditions.h
+//  MKNetworkKit-iOS
 //
-//  Created by Mugunth Kumar (@mugunthkumar) on 11/11/11.
-//  Copyright (C) 2011-2020 by Steinlogic
+//  Created by Mugunth Kumar (@mugunthkumar) on 18/01/13.
+//  Copyright (C) 2011-2020 by Steinlogic Consulting and Training Pte Ltd
 
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -23,21 +23,18 @@
 //  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 //  THE SOFTWARE.
 
-#import "ExampleDownloader.h"
+#import <UIKit/UIKit.h>
 
-@implementation ExampleDownloader
+extern const float kFromCacheAnimationDuration;
+extern const float kFreshLoadAnimationDuration;
 
+@class MKNetworkEngine;
+@class MKNetworkOperation;
 
--(MKNetworkOperation*) downloadFatAssFileFrom:(NSString*) remoteURL toFile:(NSString*) filePath {
-    
-    MKNetworkOperation *op = [self operationWithURLString:remoteURL 
-                                                        params:nil
-                                                  httpMethod:@"GET"];
-    
-    [op addDownloadStream:[NSOutputStream outputStreamToFileAtPath:filePath
-                                                                 append:YES]];
-    
-    [self enqueueOperation:op];
-    return op;
-}
+@interface UIImageView (MKNetworkKitAdditions)
++(void) setDefaultEngine:(MKNetworkEngine*) engine;
+-(MKNetworkOperation*) setImageFromURL:(NSURL*) url;
+-(MKNetworkOperation*) setImageFromURL:(NSURL*) url placeHolderImage:(UIImage*) image;
+-(MKNetworkOperation*) setImageFromURL:(NSURL*) url placeHolderImage:(UIImage*) image animation:(BOOL) yesOrNo;
+-(MKNetworkOperation*) setImageFromURL:(NSURL*) url placeHolderImage:(UIImage*) image usingEngine:(MKNetworkEngine*) imageCacheEngine animation:(BOOL) yesOrNo;
 @end

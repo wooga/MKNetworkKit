@@ -29,67 +29,61 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    // Override point for customization after application launch.
-    NSString *str = @"TEST";
-    [str md5];
-    
-    NSMutableDictionary *headerFields = [NSMutableDictionary dictionary]; 
-    [headerFields setValue:@"iOS" forKey:@"x-client-identifier"];
-    
-    self.yahooEngine = [[YahooEngine alloc] initWithHostName:@"download.finance.yahoo.com" 
-                                     customHeaderFields:headerFields];
-    // not that these header fields are mandated by yahoo. This line is to show the feature of MKNetworkKit
-    [self.yahooEngine useCache];        
-    
-    self.twitPicUploader = [[ExampleUploader alloc] initWithHostName:@"twitpic.com" 
-                                           customHeaderFields:nil];
-    
-    self.sampleDownloader = [[ExampleDownloader alloc] initWithHostName:nil customHeaderFields:nil];
-    self.samplePoster = [[ExamplePost alloc] initWithHostName:@"stockfresh.com" customHeaderFields:nil];
-    self.sampleAuth = [[AuthTestEngine alloc] initWithHostName:@"api.mk.sg" customHeaderFields:nil];
-    [self.sampleAuth useCache];
-    self.flickrEngine = [[FlickrEngine alloc] initWithHostName:@"api.flickr.com" customHeaderFields:nil];
-    [self.flickrEngine useCache];
-    return YES;
+  self.yahooEngine = [[YahooEngine alloc] initWithHostName:@"download.finance.yahoo.com"];
+  [self.yahooEngine useCache];
+  
+  // you can initialize an engine in your app delegate like the previous Yahoo engine or
+  // write a method like initWithDefaultSettings in your subclass and initialize there like the tests engine
+  
+  self.testsEngine = [[TestsEngine alloc] initWithDefaultSettings];
+  [self.testsEngine useCache];
+  
+  self.httpsTestsEngine = [[HTTPSTestEngine alloc] initWithDefaultSettings];
+  
+  self.flickrEngine = [[FlickrEngine alloc] initWithHostName:@"api.flickr.com"];
+  [self.flickrEngine useCache];
+  
+  [UIImageView setDefaultEngine:self.flickrEngine];
+  return YES;
 }
-							
+
 - (void)applicationWillResignActive:(UIApplication *)application
 {
-    /*
-     Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
-     Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
-     */
+  /*
+   Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
+   Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
+   */
 }
 
 - (void)applicationDidEnterBackground:(UIApplication *)application
 {
-    /*
-     Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later. 
-     If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
-     */
+  /*
+   Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
+   If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+   */
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application
 {
-    /*
-     Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
-     */
+  /*
+   Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
+   */
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
-    /*
-     Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
-     */
+  /*
+   Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+   */
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application
 {
-    /*
-     Called when the application is about to terminate.
-     Save data if appropriate.
-     See also applicationDidEnterBackground:.
-     */
+  /*
+   Called when the application is about to terminate.
+   Save data if appropriate.
+   See also applicationDidEnterBackground:.
+   */
 }
 
 @end
