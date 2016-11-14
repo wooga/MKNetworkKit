@@ -11,9 +11,8 @@ Pod::Spec.new do |s|
   s.osx.exclude_files =  '**/*UIAlertView*'
   s.ios.frameworks   =  'CFNetwork', 'Security'
   s.osx.frameworks   =  'CoreServices', 'Security'
-
   s.requires_arc     =  true
-
+  s.ios.deployment_target = '6.0'
   s.header_mappings_dir =  'MKNetworkKit/'
 
   s.dependency 'Reachability', '~> 3.1.0'
